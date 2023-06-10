@@ -2,7 +2,7 @@ pipeline {
   agent any
   
   environment {
-    PROJECT_NAME = "SampleUserAPI"
+    PROJECT_NAME = "sampleuserapi"
   }
   
   parameters {
