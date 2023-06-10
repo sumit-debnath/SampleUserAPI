@@ -5,8 +5,6 @@ pipeline {
       steps {
         sh '''
           node --version
-          git --version
-          curl --version
         '''
       }
     }
