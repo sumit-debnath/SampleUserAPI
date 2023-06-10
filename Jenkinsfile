@@ -3,6 +3,7 @@ pipeline {
   
   environment {
     PROJECT_NAME = "sampleuserapi"
+    DOCKER_USERNAME = credentials('dockerhub_username')
   }
   
   parameters {
@@ -17,11 +18,12 @@ pipeline {
         }
       }
     }
+    
     stage('Build Docker Image') {
       steps {
         script {
           withDockerRegistry([credentialsId: 'dockerhub', url: '']) {
-            def imageName = "${env.PROJECT_NAME}:${params.TAG}"
+            def imageName = "${env.DOCKER_USERNAME}/${env.PROJECT_NAME}:${params.TAG}"
             def image = docker.build(imageName, '-f Dockerfile .')
             image.push()
           }
