@@ -1,11 +1,14 @@
 pipeline {
-    agent any
-    tools {nodejs "node:18.16.0"}
-    stages {
-        stage('Install Dependencies') {
-            steps {
-                echo 'npm install'
-            }
-        }
+  agent { dockerfile true }
+  stages {
+    stage('Test') {
+      steps {
+        sh '''
+          node --version
+          git --version
+          curl --version
+        '''
+      }
     }
+  }
 }

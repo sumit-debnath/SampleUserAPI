@@ -9,7 +9,7 @@ SampleUserAPI is a simple RESTful API built with Node.js and Express. It provide
 1. Clone the repository:
 
 ```bash
-    git clone https://github.com/your-username/UserAPI.git
+    git clone https://github.com/sumit-debnath/SampleUserAPI.git
 ```
 
 2. Navigate to the project directory:
