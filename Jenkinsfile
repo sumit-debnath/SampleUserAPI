@@ -22,7 +22,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          withDockerRegistry([credentialsId: 'dockerhub', url: '']) {
+          withDockerRegistry([credentialsId: 'dockerhub', url: 'https://registry.hub.docker.com/']) {
             def imageName = "${env.DOCKER_USERNAME}/${env.PROJECT_NAME}:${params.TAG}"
             def image = docker.build(imageName, '-f Dockerfile .')
             image.push()
