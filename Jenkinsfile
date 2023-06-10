@@ -3,7 +3,7 @@ pipeline {
   
   environment {
     PROJECT_NAME = "sampleuserapi"
-    DOCKER_USERNAME = credentials('dockerhub')
+    DOCKER_USERNAME = credentials('dockerhub').username
   }
   
   parameters {
@@ -24,6 +24,7 @@ pipeline {
         script {
           withDockerRegistry(credentialsId: 'dockerhub') {
             sh "docker build -t ${PROJECT_NAME}:${TAG} ."
+            sh "docker tag ${PROJECT_NAME}:${TAG} ${DOCKER_USERNAME}/${PROJECT_NAME}:${TAG}"
           }
         }
       }
