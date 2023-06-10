@@ -27,6 +27,7 @@ pipeline {
             def image = docker.build(imageName, '-f Dockerfile .')
             image.push()
           }
+          echo "${env.DOCKER_USERNAME}"
         }
       }
     }
