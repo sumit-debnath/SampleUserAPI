@@ -1,36 +1,46 @@
 pipeline {
-  agent any
-  
-  environment {
-    PROJECT_NAME = "sampleuserapi"
-    DOCKER_USERNAME = credentials('dockerhub')
-  }
-  
-  parameters {
+    agent any
+
+    environment {
+        DOCKER_HUB_USERNAME = credentials('dockerhub-username')
+        DOCKER_HUB_PASSWORD = credentials('dockerhub-password')
+        DOCKER_IMAGE_NAME = 'sampleuserapi'
+    }
+    parameters {
     string(name: 'TAG', defaultValue: 'latest', description: 'Docker image tag')
   }
-  
-  stages {
-    stage('Docker Logout') {
-      steps {
-        script {
-          sh 'docker logout' // Executes the 'docker logout' command
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t ${DOCKER_IMAGE_NAME}:${TAG} .'
+            }
         }
-      }
+
+        stage('Publish') {
+            steps {
+                script {
+                    try {
+                        withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
+                            sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
+                            sh "docker push ${DOCKER_IMAGE_NAME}:${TAG}"
+                        }
+                    } finally {
+                        dockerLogout()
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            dockerLogout()
+        }
     }
     
-    stage('Build Docker Image') {
-      steps {
+    def dockerLogout() {
         script {
-            echo "${env.DOCKER_USERNAME}"
-          withDockerRegistry([credentialsId: 'dockerhub', url: '']) {
-            def imageName = "${env.DOCKER_USERNAME}/${env.PROJECT_NAME}:${params.TAG}"
-            def image = docker.build(imageName, '-f Dockerfile .')
-            image.push()
-          }
-          
+            sh 'docker logout'
         }
-      }
     }
-  }
 }
