@@ -13,7 +13,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          withDockerRegistry([credentialsId: 'dockerhub', url: '']) {
+          withDockerRegistry([url: 'http://192.168.124.8/']) {
             def imageName = "${env.PROJECT_NAME}:${params.TAG}"
             def image = docker.build(imageName, '-f Dockerfile .')
             image.push()
