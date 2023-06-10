@@ -23,7 +23,7 @@ pipeline {
       steps {
         script {
           withDockerRegistry(credentialsId: 'dockerhub') {
-            sh "docker build -t ${PROJECT_NAME}:${TAG}"
+            sh "docker build -t ${PROJECT_NAME}:${TAG} ."
           }
         }
       }
