@@ -3,7 +3,7 @@ pipeline {
   
   environment {
     PROJECT_NAME = "sampleuserapi"
-    DOCKER_USERNAME = credentials('dockerhub_username')
+    DOCKER_USERNAME = credentials('dockerhub')
   }
   
   parameters {
