@@ -14,7 +14,7 @@ pipeline {
   stages {
     stage('Build Image') {
       steps {
-        ssh "docker build -t ${PROJECT_NAME}:${TAG} ."
+        sh "docker build -t ${PROJECT_NAME}:${TAG} ."
       }
     }
     stage('Publish Image') {
