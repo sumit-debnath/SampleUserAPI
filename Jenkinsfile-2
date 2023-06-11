@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Publish Image') {
       when {
-        environment name: 'Publish', value: 'True'
+        expression { params.Publish == true }
       }
       steps {
         script {
