@@ -1,18 +1,21 @@
 pipeline {
   agent {
-    label 'docker-slave'
+    docker {
+      image 'jenkins/jnlp-agent-docker'
+      reuseNode true
+    }
   }
-  
+
   environment {
     PROJECT_NAME = "sampleuserapi"
     DOCKER_USERNAME = "sdnath"
   }
-  
+
   parameters {
     string(name: 'TAG', defaultValue: 'latest', description: 'Docker image tag')
     booleanParam(description: 'Publish The image to Docker Registry', name: 'Publish')
   }
-  
+
   stages {
     stage('Build Image') {
       steps {
