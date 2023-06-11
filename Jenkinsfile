@@ -25,6 +25,7 @@ pipeline {
           withDockerRegistry(credentialsId: 'dockerhub') {
             sh "docker build -t ${PROJECT_NAME}:${TAG} ."
             sh "docker tag ${PROJECT_NAME}:${TAG} ${DOCKER_USERNAME}/${PROJECT_NAME}:${TAG}"
+            sh "docker push ${DOCKER_USERNAME}/${PROJECT_NAME}:${TAG}"
           }
         }
       }
